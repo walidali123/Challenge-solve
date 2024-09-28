@@ -102,7 +102,7 @@ The pipeline consists of two jobs:
            with:
              image: walidali123/api
              dockerfile: ./api/Dockerfile
-             directory: ./api  # Use 'directory' instead of 'context'
+             directory: ./api  
              registry: docker.io
              username: ${{ secrets.DOCKER_USERNAME }}
              password: ${{ secrets.DOCKER_PASSWORD }}
@@ -120,7 +120,7 @@ The pipeline consists of two jobs:
            with:
              image: walidali123/client
              dockerfile: ./client/Dockerfile
-             directory: ./client  # Use 'directory' instead of 'context'
+             directory: ./client  
              registry: docker.io
              username: ${{ secrets.DOCKER_USERNAME }}
              password: ${{ secrets.DOCKER_PASSWORD }}
