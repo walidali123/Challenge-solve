@@ -25,7 +25,4 @@ RUN chown -R www-data:www-data /var/www/html/storage /var/www/html/bootstrap/cac
 # Run Apache in the foreground
 CMD ["apache2-foreground"]
 
-~                                                                         
-~   
-~                                                                         
-~     
+
