@@ -1,0 +1,43 @@
+name: Build and Push Docker Images
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build-api:
+    name: Build and Push API Docker Image
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout Repository
+      uses: actions/checkout@v2
+
+    - name: Build and Push API Docker Image
+      uses: mr-smithers-excellent/docker-build-push@v5
+      with:
+        image: walidali123/api
+        dockerfile: ./api/Dockerfile
+        context: ./api
+        registry: docker.io
+        username: ${{ secrets.DOCKER_USERNAME }}
+        password: ${{ secrets.DOCKER_PASSWORD }}
+
+  build-client:
+    name: Build and Push Client Docker Image
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout Repository
+      uses: actions/checkout@v2
+
+    - name: Build and Push Client Docker Image
+      uses: mr-smithers-excellent/docker-build-push@v5
+      with:
+        image: walidali123/client
+        dockerfile: ./client/Dockerfile
+        context: ./client
+        registry: docker.io
+        username: ${{ secrets.DOCKER_USERNAME }}
+        password: ${{ secrets.DOCKER_PASSWORD }}
