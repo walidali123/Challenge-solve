@@ -1,8 +1,11 @@
 # Use the official PHP image with Apache
 FROM php:8.1-apache
 
-# Install necessary extensions
-RUN docker-php-ext-install pdo pdo_mysql
+# Install necessary PHP extensions for Laravel
+RUN apt-get update && apt-get install -y \
+    libzip-dev unzip git curl \
+    && docker-php-ext-install pdo pdo_mysql zip \
+    && a2enmod rewrite
 
 # Install Composer
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
@@ -13,14 +16,14 @@ WORKDIR /var/www/html
 # Copy the application code
 COPY . .
 
-# Install dependencies
-RUN composer install
+# Ensure correct permissions for storage and bootstrap/cache
+RUN chown -R www-data:www-data /var/www/html/storage /var/www/html/bootstrap/cache
+
+# Install Laravel dependencies via Composer
+RUN composer install --no-interaction --prefer-dist --optimize-autoloader
 
 # Expose port 8000 for the Laravel app
 EXPOSE 8000
-
-# Set permissions for the storage and bootstrap/cache directories
-RUN chown -R www-data:www-data /var/www/html/storage /var/www/html/bootstrap/cache
 
 # Run Apache in the foreground
 CMD ["apache2-foreground"]
